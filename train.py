@@ -2,13 +2,19 @@ from models.vit import ViT
 import torch
 import torch.nn as nn
 
+from data.loader import get_dataset
+
 
 # train model
 def train(model, train_loader, optimizer, criterion, device):
     model.train()
     running_loss = 0.0
     running_corrects = 0
+    epoch = 0
     for inputs, labels in train_loader:
+        if epoch == 1:
+            break
+        epoch += 1
         inputs = inputs.to(device)
         labels = labels.to(device)
 
@@ -40,7 +46,7 @@ model = ViT(image_size=224,
             depth=2,
             heads=2,
             mlp_dim=512)
-train_loader = torch.utils.data.DataLoader(transformed_dataset,
+train_loader = torch.utils.data.DataLoader(get_dataset(),
                                            batch_size=4,
                                            shuffle=True,
                                            num_workers=4)
