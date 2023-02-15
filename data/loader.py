@@ -4,6 +4,10 @@ import pandas as pd
 from PIL import Image
 import numpy as np
 from torch.utils.data import Dataset
+import numpy as np
+import torch
+from data.transform import get_transforms
+
 
 class ImageDataset(Dataset):
     def __init__(self, root_dir, csv_file, transform=None):
@@ -32,10 +36,8 @@ class ImageDataset(Dataset):
 
         return image, label
 
-class FFT2D(object):
-    """2D FFT of an image."""
 
-    def __call__(self, sample):
-        image, label = sample['image'], sample['label']
-        image = np.fft.fft2(image)
-        return image, label
+def get_dataset():
+    return ImageDataset(csv_file = '../raw_data/train.csv',
+                                   root_dir = '../raw_data/train',
+                                   transform = get_transforms())
